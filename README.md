@@ -11,4 +11,5 @@ Split these main categories into sub-categories, e.g., {Quantum Technologies/Qua
 
 The input in my case are messy documents: research papers, personal notes, etc. The format of those might be PDF, but is not strictly PDF (e.g., may be .docs).
 
-https://github.com/matteograsso98/RAG_DB/blob/main/rag-diagram.drawio.png?raw=true<img width="341" height="591" alt="image" src="https://github.com/user-attachments/assets/b7416778-4b7b-4973-b82c-94d30db6ffee" />
+<img width="341" height="591" alt="image" src="https://github.com/user-attachments/assets/7d0a1162-02d3-49d2-a243-3e98e93745b4" />
+
