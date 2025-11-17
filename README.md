@@ -14,3 +14,6 @@ The input in my case are messy documents: research papers, personal notes, etc. 
 <p align="center">
   <img width="341" height="591" alt="image" src="https://github.com/user-attachments/assets/7d0a1162-02d3-49d2-a243-3e98e93745b4">
 p>
+
+The ingest.py (ingestion) code (i) scans a folder of documents, (ii) extracts text (PDF/DOCX/TXT/MD), (iii) chunks text (configurable chunk size + overlap) \
+, (iv) computes embeddings (sentence-transformers), (v) stores metadata in SQLite and vectors in FAISS.
