@@ -30,3 +30,42 @@ Context:
 
 Question: <user question>
 ~~~
+
+* Notes & enhancements
+Performance & scaling
+- FAISS (IndexFlatIP) works great for small-to-medium corpora (thousands → low-latency). For many thousands or millions, move to an IVF index with training or use a small vector DB (Chroma/Weaviate/Milvus). But those add complexity.
+- Keep embeddings dimension modest (e.g., 384) to keep memory low.
+- Chunk size: 150–500 tokens is typical. Overlap helps continuity. Adjust for your file types (slides short; papers longer).
+- Embedding model choices. all-MiniLM-L6-v2 (sentence-transformers) gives compact 384-d embeddings, fast, no external API. For higher-quality embeddings, use all-mpnet-base-v2 (768-d) or an API (OpenAI) if you want.
+- Persistence & backups. Commit faiss_index.bin and .ids.json to disk backup. Store data/docs separately (or use disk paths in DB).
+- Re-ranking. Optionally re-rank FAISS results with cross-encoder model for higher accuracy (compute cost higher; can be selective on top 20 results before final top-K).
+- Security & Privacy. Keep embeddings and local files private. If using cloud APIs, be aware of data sharing.
+- The ingestion script appends new chunks and adds to FAISS. If you change chunking or embedding model, rebuild index from scratch (script to drop old FAISS and re-ingest).
+
+ 
+
+The folder structure is: 
+
+~~~
+research-rag/
+├─ ingest.py               # ingestion script
+├─ retrieve_rag.py         # retrieval + RAG helper
+├─ app.py                  # simple Flask GUI
+├─ schema.sql              # optional schema dump
+├─ requirements.txt
+├─ README.md
+├─ templates/
+│   ├─ index.html 
+│   ├─ doc.html
+│   └─ search.html
+├─ static/
+│   └─ (css/js assets)
+├─ data/
+│   ├─ docs/                # store original files (pdf/docx)
+│   ├─ faiss_index.bin #  created once the GUI runs 
+│   └─ faiss_index.bin.ids.json # created once the GUI runs 
+├─ rag_library.db # created after first run 
+└─ utils/
+   ├─ extractors.py
+   └─ scoring.py
+~~~
