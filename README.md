@@ -21,7 +21,8 @@ Note that if one prefers an external embedding API (OpenAI), replace the model.e
 The retrieve_rag.py (RAG) simply takes top N chunks, concatenate them with short separators and citations (title - page/ chunk idx). Add system + user instructions, then call LLM (locally or via API). 
 Example prompt is:
 ~~~
-System: You are a helpful research assistant. Use only the provided document excerpts to answer the question. If insufficient, say "Insufficient evidence".
+System: You are a helpful research assistant. Use only the provided document excerpts to answer the question.
+If insufficient, say "Insufficient evidence".
 
 Context:
 [Document A] (title) — excerpt...
