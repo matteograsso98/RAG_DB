@@ -10,3 +10,5 @@ Split these main categories into sub-categories, e.g., {Quantum Technologies/Qua
 - The final outcome is displayed through a simple GUI (we will define it later) 
 
 The input in my case are messy documents: research papers, personal notes, etc. The format of those might be PDF, but is not strictly PDF (e.g., may be .docs).
+
+![Uploading image.png…]()
