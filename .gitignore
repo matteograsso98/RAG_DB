@@ -12,8 +12,6 @@ rag_library.db
 # 3. FAISS Vector Index (the embeddings storage)
 data/faiss_index.bin
 data/faiss_index.ids.json
-# If you have a general 'data/' folder structure that should only contain tracked files, 
-# you might need to adjust this, but these files are typically ignored.
 
 # -------------------------------------------------------------------
 # Environment and Python Specific Files
