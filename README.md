@@ -1,8 +1,8 @@
 # RAG_DB
 
 ## Objective 
-This is a personal DB with RAG capabilities to keep track of the research papers/ slides / documents I have been reading, and the notes I have been taking on different topics.  
-The purpose is both to test/evaluate RAG techniques, as well as to organise my knowledge, and maintain it in a clean and easy way as the documents increase. 
+This is a personal DB with RAG capabilities to keep track of the research papers, slides, documents I have been reading (and the notes I have been taking) on different topics. 
+The purpose is both to test/evaluate RAG techniques, to implement a few-shot LLM-based classification of the objects in categories, and to organise and maintain the things I have been learning.
 
 Constraints by desing: 
 - Lightweight and low-latency
@@ -15,7 +15,6 @@ The input in my case are messy documents: research papers, personal notes, etc. 
 
 <p align="center">
   <img width="341" height="591" alt="image" src="https://github.com/user-attachments/assets/7d0a1162-02d3-49d2-a243-3e98e93745b4">
-p>
 
 The ingest.py (ingestion) code scans a folder of documents, extracts text (PDF/DOCX/TXT/MD), chunks text (configurable chunk size + overlap), computes embeddings (sentence-transformers), and stores metadata in SQLite and vectors in FAISS. 
 Note that if one prefers an external embedding API (OpenAI), replace the model.encode call with embedding API (but keep vector normalization for FAISS). For very large libraries, consider using IndexIVFFlat with training for FAISS (but that complicates persistence).
