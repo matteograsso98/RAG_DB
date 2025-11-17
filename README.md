@@ -1,6 +1,8 @@
 # RAG_DB
-Personal DB with RAG capabilities to keep track of the research papers/ slides / documents I have been reading, and the notes I have been taking on different topics.  
-The goal is to organise all that knowledge, and maintain it in a clean and easy way as the documents increase. 
+
+## Objective 
+This is a personal DB with RAG capabilities to keep track of the research papers/ slides / documents I have been reading, and the notes I have been taking on different topics.  
+The purpose is both to test/evaluate RAG techniques, as well as to organise my knowledge, and maintain it in a clean and easy way as the documents increase. 
 
 Constraints by desing: 
 - Lightweight and low-latency
