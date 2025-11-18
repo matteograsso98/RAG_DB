@@ -22,7 +22,7 @@ The design architecture is:
 - **ingest.py** (ingestion) code scans a folder of documents, extracts text (PDF/DOCX/TXT/MD), chunks text (configurable chunk size + overlap), computes embeddings (sentence-transformers), and stores metadata in SQLite and vectors in FAISS. 
 Note that if one prefers an external embedding API (OpenAI, Google, ...), replace the model.encode call with embedding API (but keep vector normalization for FAISS). For very large libraries, consider using IndexIVFFlat with training for FAISS (but that complicates persistence).
 
--  **retrieve_rag.py** simply takes top N chunks, concatenate them with short separators and citations (title - page/ chunk idx). Add system + user instructions, then call LLM (locally or via API). 
+-  **retrieve_rag.py** (RAG) simply takes top N chunks, concatenate them with short separators and citations (title - page/ chunk idx). Add system + user instructions, then call LLM (locally or via API). 
 Example prompt is:
 ~~~
 System: You are a helpful research assistant. Use only the provided document excerpts to answer the question.
@@ -34,9 +34,8 @@ Context:
 
 Question: <user question>
 ~~~
+### Notes & enhancements
 
-* Notes & enhancements
-Performance & scaling
 - FAISS (IndexFlatIP) works great (low latency) for small-to-medium corpora (thousands). For many thousands or millions, move to an IVF index with training or use a small vector DB (Chroma/Weaviate/Milvus;  but at the cost of more complexity).
 - Keep embeddings dimension modest (e.g., 384) to keep memory low.
 - Chunk size: 150–500 tokens is typical. Overlap helps continuity. Adjust for your file types (slides short; papers longer).
@@ -45,7 +44,7 @@ Performance & scaling
 - Security & Privacy. Keep embeddings and local files private. If using cloud APIs, be aware of data sharing.
 - The ingestion script appends new chunks and adds to FAISS. If you change chunking or embedding model, rebuild index from scratch (script to drop old FAISS and re-ingest).
 
-
+.......................................................................
 When you first run the code: 
 ~~~
 python -m venv .venv
