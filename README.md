@@ -58,5 +58,5 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ~~~
 
-### References
-Google Whitepaper, "Embeddings & Vector Stores", Anant Nawalgaria, Xiaoqi Ren, and Charles Sugnet.
+### References
+Google Whitepaper, "_Embeddings & Vector Stores_", Anant Nawalgaria, Xiaoqi Ren, and Charles Sugnet.
