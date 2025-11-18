@@ -34,6 +34,9 @@ Context:
 
 Question: <user question>
 ~~~
+### How does the GUI look? 
+<img width="300" height="400" alt="Screenshot 2025-11-18 at 08 40 32" src="https://github.com/user-attachments/assets/93bcbef8-4714-4ec3-a940-969e23f138ab" />
+
 ### Notes & enhancements
 
 - FAISS (IndexFlatIP) works great (low latency) for small-to-medium corpora (thousands). For many thousands or millions, move to an IVF index with training or use a small vector DB (Chroma/Weaviate/Milvus;  but at the cost of more complexity).
