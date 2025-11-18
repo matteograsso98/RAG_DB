@@ -15,16 +15,28 @@ The input in my case were messy documents: research papers, personal notes, etc.
 
 
 ### What embedding model am I using? 
-For a lightweight and low-latency solution on small data base like mine, I combine the all-MiniLM-L6-v2 model, which is a Bi-encoder achitecture (two neural nets for queries and documents, respectively). 
+For a lightweight and low-latency solution on small data base like mine, I use the all-MiniLM-L6-v2 model. To clarify, MiniLM-L6-v2 is a single neural network architecture that acts as both the Document Encoder and the Query Encoder. all-MiniLM-L6-v2 is a Sentence Transformer (with bi-encoder achitecture) that is pre-trained to map sentences (both query and document chunk) into a dense vector space where semantic meaning is captured by proximity. 
 - The Document Encoder is the SentenceTransformer model (loaded in ingest.py).	This neural network encodes every document chunk (D) into a vector $V_D$. This happens once during ingestion.
 - The Query Encoder	is still the SentenceTransformer model (loaded in retrieve_rag.py	this time). This same network encodes the user query (Q) into a vector  $V_Q$. This happens every time a query is made.
-Note that the most commong RAG architectures uses two neural nets (bi-encoder) because Q&A are semantically different. We can think of the whole model as made up of two parts: the query part and the document part (see diagram).
+Note that the most commong RAG architectures uses two neural nets (bi-encoder) because Q&A are semantically different. We can think of the whole model as made up of two parts: the query part and the document part (see diagram below).
 
+The document encoder and the query encoder share the same weights (they are the same model instance, all-MiniLM-L6-v2). This allows you to pre-compute the document vectors and store them in FAISS, making retrieval extremely fast. This is the most common and efficient architecture for the retrieval step in modern RAG systems.
+To avoid confusion (one might think that the neural nets for Q&A are trained on different data sets), models like all-MiniLM-L6-v2 are fine-tuned on vast datasets of (Query, Relevant Document, Non-Relevant Document) triplets using a technique called Contrastive Learning. This explicitly trains the single model to ensure that a relevant document's vector is closer to the query vector than a non-relevant document's vector.
+
+<p align="center">
 <img width="773" height="586" alt="Screenshot 2025-11-18 at 11 03 19" src="https://github.com/user-attachments/assets/790f57cc-59d4-4699-8967-50cc0c126b63" />
 
+### Retrieval Mechanism
+Finally, the retrieval mechanismis is provided by FAISS, an open-source library for similarity search and clustering of vectors. Retrieval finds the nearest document vectors ($V_D$) to the query vector ($V_Q$), using distance (L2 or Cosine).
+
+### System's Vector Database
+I implement a basic, custom Vector Store by combining two parts:
+
+- FAISS Index: Stores the high-dimensional vectors (faiss_index.bin).
+- SQLite Database: Stores the metadata (the document text chunks, document titles, chunk IDs, etc.) that corresponds to the vectors in the FAISS index.
 
 
-### What do the scripts do? 
+### Comments on the scripts 
 - **ingest.py** (ingestion) code scans a folder of documents, extracts text (PDF/DOCX/TXT/MD), chunks text (configurable chunk size + overlap), computes embeddings (sentence-transformers), and stores metadata in SQLite and vectors in FAISS. 
 Note that if one prefers an external embedding API (OpenAI, Google, ...), replace the model.encode call with embedding API (but keep vector normalization for FAISS). For very large libraries, consider using IndexIVFFlat with training for FAISS (but that complicates persistence).
 
