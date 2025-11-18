@@ -13,10 +13,17 @@ These categories are then split into sub-categories, e.g., {Quantum Technologies
 
 The input in my case were messy documents: research papers, personal notes, etc. The format of those might be PDF, but is not strictly PDF (e.g., may be .docs).
 
-The architecture's design is: 
 
-<p align="center">
-  <img width="341" height="591" alt="image" src="https://github.com/user-attachments/assets/7d0a1162-02d3-49d2-a243-3e98e93745b4">
+### What embedding model am I using? 
+For a lightweight and low-latency solution on small data base like mine, I combine the all-MiniLM-L6-v2 model, which is a Bi-encoder achitecture (two neural nets for queries and documents, respectively). 
+- The Document Encoder is the SentenceTransformer model (loaded in ingest.py).	This neural network encodes every document chunk (D) into a vector $V_D$. This happens once during ingestion.
+- The Query Encoder	is still the SentenceTransformer model (loaded in retrieve_rag.py	this time). This same network encodes the user query (Q) into a vector  $V_Q$. This happens every time a query is made.
+Note that the most commong RAG architectures uses two neural nets (bi-encoder) because Q&A are semantically different. We can think of the whole model as made up of two parts: the query part and the document part (see diagram).
+
+<p align
+<img width="773" height="586" alt="Screenshot 2025-11-18 at 11 03 19" src="https://github.com/user-attachments/assets/790f57cc-59d4-4699-8967-50cc0c126b63" />
+
+
 
 ### What do the scripts do? 
 - **ingest.py** (ingestion) code scans a folder of documents, extracts text (PDF/DOCX/TXT/MD), chunks text (configurable chunk size + overlap), computes embeddings (sentence-transformers), and stores metadata in SQLite and vectors in FAISS. 
